@@ -1,0 +1,28 @@
+{
+    "name": "manzadey/laravel-macros",
+    "description": "Laravel Macros",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrey Manzadey",
+            "email": "andrey.manzadey@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Manzadey\\Macros\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Manzadey\\Helpers\\HelpersServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^7.0|^8.0"
+    }
+}
