@@ -9,7 +9,7 @@ class Slug
         return function() {
             /* @var \Illuminate\Database\Schema\Blueprint $this */
 
-            $this->string('slug');
+            return $this->string('slug');
         };
     }
 }

@@ -11,7 +11,7 @@ class Active
         return function(string $name = 'active') {
             /* @var \Illuminate\Database\Schema\Blueprint $this */
 
-            $this->boolean($name)->default(0);
+            return $this->boolean($name)->default(0);
         };
     }
 }
