@@ -17,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Manzadey\\Helpers\\MacrosServiceProvider"
+                "Manzadey\\LaravelMacros\\MacrosServiceProvider"
             ]
         }
     },
