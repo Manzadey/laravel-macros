@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Manzadey\\Macros\\": "src"
+            "Manzadey\\LaravelMacros\\": "src"
         }
     },
     "extra": {
