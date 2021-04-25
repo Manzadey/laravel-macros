@@ -2,43 +2,62 @@
 
 namespace Manzadey\LaravelMacros;
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Manzadey\LaravelMacros\Collection\FilterRecursive;
+use Manzadey\LaravelMacros\Blueprint\Active;
+use Manzadey\LaravelMacros\Blueprint\Description;
+use Manzadey\LaravelMacros\Blueprint\Rating;
+use Manzadey\LaravelMacros\Blueprint\Slug;
 use Manzadey\LaravelMacros\Str\CountLetters;
 use Manzadey\LaravelMacros\Str\CountWords;
 use Manzadey\LaravelMacros\Str\Declination;
 use Manzadey\LaravelMacros\Str\DeclinationRuble;
 use Manzadey\LaravelMacros\Str\Mask;
 use Manzadey\LaravelMacros\Str\OnlyNums;
-use Manzadey\LaravelMacros\Str\UcFirst;
 use Manzadey\LaravelMacros\Str\YoutubeCodeFromUrl;
 
 class MacrosServiceProvider extends ServiceProvider
 {
     public function boot() : void
     {
-        $this->inject($this->strMacros());
+        $this->inject($this->strMacros(), Str::class);
+        $this->inject($this->blueprintMacros(), Blueprint::class);
     }
 
-    private function inject(array $macros) : void
+    private function inject(array $macros, string $class) : void
     {
         Collection::make($macros)
-            ->reject(static fn($class, $macro) => Str::hasMacro($macro))
-            ->each(static fn($class, $macro) => Str::macro($macro, app($class)()));
+            ->reject(static fn($macro) => $class::hasMacro($this->getNameFromMacros($macro)))
+            ->each(static fn($macro) => $class::macro($this->getNameFromMacros($macro), app($macro)()));
     }
 
     private function strMacros() : array
     {
         return [
-            Declination::NAME        => Declination::class,
-            DeclinationRuble::NAME   => DeclinationRuble::class,
-            YoutubeCodeFromUrl::NAME => YoutubeCodeFromUrl::class,
-            OnlyNums::NAME           => OnlyNums::class,
-            CountLetters::NAME       => CountLetters::class,
-            CountWords::NAME         => CountWords::class,
-            Mask::NAME               => Mask::class,
+            Declination::class,
+            DeclinationRuble::class,
+            YoutubeCodeFromUrl::class,
+            OnlyNums::class,
+            CountLetters::class,
+            CountWords::class,
+            Mask::class,
         ];
+    }
+
+    private function blueprintMacros() : array
+    {
+        return [
+            Active::class,
+            Rating::class,
+            Slug::class,
+            Description::class,
+        ];
+    }
+
+    private function getNameFromMacros(string $macros) : string
+    {
+        return lcfirst(basename($macros));
     }
 }
