@@ -29,8 +29,8 @@ class MacrosServiceProvider extends ServiceProvider
     private function inject(array $macros, string $class) : void
     {
         Collection::make($macros)
-            ->reject(static fn($macro) => $class::hasMacro(lcfirst(basename($macro))))
-            ->each(static fn($macro) => $class::macro(lcfirst(basename($macro)), app($macro)()));
+            ->reject(static fn($macro) => $class::hasMacro(lcfirst(class_basename($macro))))
+            ->each(static fn($macro) => $class::macro(lcfirst(class_basename($macro)), app($macro)()));
     }
 
     private function strMacros() : array
